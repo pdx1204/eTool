@@ -8,6 +8,10 @@ This is an app that recognizes text in pictures. The application is developed us
 
 ## The cause of
 
+Because before the use of uTools clipboard, screenshots, screenshots to recognize text and other functions; It's not too much fun. But for a variety of reasons, I gave up; But as a computer ape, I must promote the traditional virtue of laziness, so I decided to masturbate myself !!!
+
+<br />
+
 ## Features
 
 - 🔌 [Tauri](https://github.com/tauri-apps/tauri) - Build smaller, faster, and more secure desktop applications with a web frontend.
@@ -28,6 +32,7 @@ This is an app that recognizes text in pictures. The application is developed us
 
 - [ ] Added screen capture function
 - [ ] Recognize the text in the screenshot
+- [ ] Shear plate history
 - [ ] ...
 
 <br />
