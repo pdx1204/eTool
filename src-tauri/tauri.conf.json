@@ -6,8 +6,8 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "easy_ocr_app",
-    "version": "0.0.0"
+    "productName": "OCR文字识别",
+    "version": "0.0.1"
   },
   "tauri": {
     "allowlist": {
@@ -54,11 +54,11 @@
     },
     "windows": [
       {
-        "fullscreen": false,
         "height": 600,
         "resizable": true,
-        "title": "easy_ocr_app",
-        "width": 800
+        "title": "OCR文字识别",
+        "width": 800,
+        "center": true
       }
     ]
   }

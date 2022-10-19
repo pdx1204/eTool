@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 import { Input, Image, Button, Spin } from "@arco-design/web-react";
@@ -12,6 +12,7 @@ function App() {
   const [loading, setLoading] = useState<boolean>(false);
 
   const parse = async (imgSrcUrl: string) => {
+    setParseText("");
     setLoading(true);
     const worker = createWorker({
       logger: (m) => console.log(m),
@@ -51,6 +52,10 @@ function App() {
     };
   };
 
+  const getClipboardContents = async () => {};
+
+  useEffect(() => {}, []);
+
   return (
     <div className="easy-ocr-app">
       <Spin block dot loading={loading} tip="正在解析图片中的文字，请稍候...">
@@ -75,6 +80,9 @@ function App() {
             className="shadow-lg"
             placeholder="请上传图片..."
             value={parseText}
+            onChange={(value) => {
+              setParseText(value);
+            }}
           />
         </div>
       </Spin>
