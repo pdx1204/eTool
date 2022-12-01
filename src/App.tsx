@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import { readText } from "@tauri-apps/api/clipboard";
 
 import { Input, Image, Button, Spin } from "@arco-design/web-react";
 const TextArea = Input.TextArea;
@@ -52,9 +53,14 @@ function App() {
     };
   };
 
-  const getClipboardContents = async () => {};
+  const getClipboardContents = async () => {
+    const clipboardText = await readText();
+    console.log(clipboardText);
+  };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    getClipboardContents();
+  }, []);
 
   return (
     <div className="easy-ocr-app">

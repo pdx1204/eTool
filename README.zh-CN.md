@@ -2,7 +2,7 @@
 <a href="https://github.com/qiuqfang/easy_ocr_app/blob/main/README.md">English</a> | <b>简体中文</b>
 </p>
 
-# Easy OCR App
+# Easy Job App
 
 这是一个能识别图片中的文字的应用程序。该应用程序是使用 Tauri, Vite, React, TypeScript 开发的。
 
