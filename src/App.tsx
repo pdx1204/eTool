@@ -6,6 +6,7 @@ import { Input, Image, Button, Spin } from "@arco-design/web-react";
 const TextArea = Input.TextArea;
 
 import { createWorker } from "tesseract.js";
+import MediaDevice from "./components/MediaDevice";
 
 function App() {
   const [imageSrc, setImageSrc] = useState<string>();
@@ -54,8 +55,7 @@ function App() {
   };
 
   const getClipboardContents = async () => {
-    const clipboardText = await readText();
-    console.log(clipboardText);
+    // const clipboardText = await readText();
   };
 
   useEffect(() => {
@@ -94,6 +94,8 @@ function App() {
       </Spin>
 
       <input type="file" id="fileUpload" accept="image/*" hidden />
+
+      <MediaDevice />
     </div>
   );
 }
