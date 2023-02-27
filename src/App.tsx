@@ -31,7 +31,7 @@ function App() {
     setLoading(false);
   };
 
-  const checkFile = (tempFile: any) => {
+  const checkFile = (tempFile: File) => {
     if (!tempFile) {
       return false;
     }
@@ -44,13 +44,14 @@ function App() {
   };
 
   const handleClick = () => {
-    const inputFile = document.querySelector(`#fileUpload`) as HTMLInputElement;
+    const inputFile = document.querySelector("#fileUpload") as HTMLInputElement;
     inputFile.click();
-    inputFile.onchange = (e: any) => {
-      const tempFile = e.target.files[0];
-      e.target.value = ""; // 同一个文件做两次上传操作，第二次无效解决办法
+    inputFile.onchange = (e: Event) => {
+      const target = e.target as HTMLInputElement;
+      const tempFiles = target.files as FileList;
+      target.value = ""; // 同一个文件做两次上传操作，第二次无效解决办法
 
-      checkFile(tempFile);
+      checkFile(tempFiles[0]);
     };
   };
 
