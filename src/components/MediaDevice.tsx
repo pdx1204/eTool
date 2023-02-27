@@ -8,15 +8,8 @@ const MediaDevice: React.FC = () => {
   }, []);
 
   const init = async () => {
-    // const devices = await getDevices();
-    // console.log(devices);
-    // await getMedia({ audio: false, video: true });
+    await getMedia({ audio: false, video: true });
   };
-
-  async function getDevices() {
-    const devices = navigator.mediaDevices.enumerateDevices();
-    return devices;
-  }
 
   async function getMedia(constraints: MediaStreamConstraints) {
     let s = null;
@@ -38,18 +31,7 @@ const MediaDevice: React.FC = () => {
     }
   }
 
-  return (
-    <>
-      <video />
-      <button
-        onClick={() => {
-          getMedia({ audio: false, video: true });
-        }}
-      >
-        点击
-      </button>
-    </>
-  );
+  return <video />;
 };
 
 export default MediaDevice;
