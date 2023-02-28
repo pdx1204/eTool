@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Input, Image, Button, Spin } from "@arco-design/web-react";
-import { createWorker } from "tesseract.js";
 const TextArea = Input.TextArea;
+
+import { createWorker } from "tesseract.js";
+import { OCRWrapper } from "./styled";
 
 export default function Home() {
   const [imageSrc, setImageSrc] = useState<string>();
@@ -21,7 +23,6 @@ export default function Home() {
     const {
       data: { text },
     } = await worker.recognize(imgSrcUrl);
-    console.log(text);
     setParseText(text);
     await worker.terminate();
     setLoading(false);
@@ -31,7 +32,7 @@ export default function Home() {
     if (!tempFile) {
       return false;
     }
-    if (tempFile.type.substr(0, 5) != "image") {
+    if (tempFile.type.substring(0, 5) !== "image") {
       return;
     }
     const imgSrcUrl = URL.createObjectURL(tempFile);
@@ -45,14 +46,19 @@ export default function Home() {
     inputFile.onchange = (e: Event) => {
       const target = e.target as HTMLInputElement;
       const tempFiles = target.files as FileList;
-      target.value = ""; // 同一个文件做两次上传操作，第二次无效解决办法
 
       checkFile(tempFiles[0]);
+      target.value = ""; // 同一个文件做两次上传操作，第二次无效解决办法
     };
   };
 
+  useEffect(() => {
+    const textarea = document.querySelector("textarea.shadow-lg");
+    textarea?.classList.remove("arco-textarea-disabled");
+  }, []);
+
   return (
-    <>
+    <OCRWrapper>
       <Spin block dot loading={loading} tip="正在解析图片中的文字，请稍候...">
         <div className="flex justify-center p-[20px]">
           <Button type="primary" onClick={handleClick}>
@@ -71,10 +77,14 @@ export default function Home() {
           />
 
           <TextArea
-            style={{ width: "49%", height: "300px" }}
-            className="shadow-lg"
+            style={{
+              width: "49%",
+              height: "300px",
+            }}
+            className="shadow-lg text-black"
             placeholder="请上传图片..."
             value={parseText}
+            disabled
             onChange={(value) => {
               setParseText(value);
             }}
@@ -83,6 +93,6 @@ export default function Home() {
       </Spin>
 
       <input type="file" id="fileUpload" accept="image/*" hidden />
-    </>
+    </OCRWrapper>
   );
 }
