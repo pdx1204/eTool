@@ -5,9 +5,10 @@ import {
   register,
   unregister,
 } from "@tauri-apps/api/globalShortcut";
-import { SHORTCUT_KEY } from "./constants";
+import { GET_SHORTCUT_KEYS } from "./constants";
 
 export const registerScreenshot = async () => {
+  const SHORTCUT_KEY = await GET_SHORTCUT_KEYS();
   const screenshot = await isRegistered(SHORTCUT_KEY.screenshot);
   console.log(screenshot);
 
