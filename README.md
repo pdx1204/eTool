@@ -2,7 +2,7 @@
 <b>English</b> | <a href="https://github.com/qiuqfang/easy_ocr_app/blob/main/README.zh-CN.md">简体中文</a>
 </p>
 
-# Easy Job App
+# Easy Tool
 
 This is an app that recognizes text in pictures. The application is developed using Tauri, Vite, React, TypeScript.
 

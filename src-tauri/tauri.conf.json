@@ -6,7 +6,7 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "OCR文字识别",
+    "productName": "ETool",
     "version": "0.0.1"
   },
   "tauri": {
@@ -29,7 +29,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "top.qiuqfang.ocr",
+      "identifier": "top.qiuqfang.ETool",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
@@ -57,7 +57,7 @@
       {
         "height": 600,
         "resizable": true,
-        "title": "OCR文字识别",
+        "title": "ETool",
         "width": 800,
         "center": true
       }

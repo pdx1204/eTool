@@ -2,7 +2,7 @@ import { Link, Outlet } from "react-router-dom";
 
 function App() {
   return (
-    <div className="easy-job-app">
+    <div className="easy-tool">
       <nav className="flex justify-center">
         <Link to="/" className="mx-1">
           OCR
