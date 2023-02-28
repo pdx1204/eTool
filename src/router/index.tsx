@@ -19,6 +19,10 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/webview",
+    element: <Webview />,
+  },
 ]);
 
 export default router;

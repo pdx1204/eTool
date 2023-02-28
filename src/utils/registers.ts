@@ -1,4 +1,4 @@
-import { WebviewWindow } from "@tauri-apps/api/window";
+import { getCurrent, WebviewWindow } from "@tauri-apps/api/window";
 import { createWebviewWindow } from "./index";
 import {
   isRegistered,
@@ -7,23 +7,38 @@ import {
 } from "@tauri-apps/api/globalShortcut";
 import { SHORTCUT_KEY } from "./constants";
 
-const screenshot = await isRegistered(SHORTCUT_KEY.screenshot);
+export const registerScreenshot = async () => {
+  const screenshot = await isRegistered(SHORTCUT_KEY.screenshot);
+  console.log(screenshot);
 
-if (screenshot) {
-  await unregister(SHORTCUT_KEY.screenshot);
-}
+  let webview: WebviewWindow | null = null;
 
-let webview: WebviewWindow | null = null;
-await register(SHORTCUT_KEY.screenshot, (shortcut) => {
-  console.log("截屏", shortcut);
-  if (webview) {
-    webview?.close();
-    webview = null;
-    return;
+  const registerFn = async () => {
+    await register(SHORTCUT_KEY.screenshot, async (shortcut) => {
+      console.log("截屏", shortcut);
+      if (webview) {
+        webview?.close();
+        webview = null;
+        return;
+      }
+      webview = createWebviewWindow({
+        url: "/webview",
+        decorations: false,
+        maximized: true,
+        transparent: true,
+      });
+    });
+  };
+
+  if (screenshot) {
+    const current = getCurrent();
+    if (current.label === "main") {
+      await unregister(SHORTCUT_KEY.screenshot);
+      registerFn();
+    }
+  } else {
+    registerFn();
   }
-  webview = createWebviewWindow({
-    url: "http://www.baidu.com",
-    decorations: false,
-    maximized: true,
-  });
-});
+};
+
+registerScreenshot();
