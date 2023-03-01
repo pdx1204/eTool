@@ -19,9 +19,10 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const WebviewWrapper = styled.div`
+const WebviewWrapper = styled.canvas`
+  width: 100%;
   height: 100vh;
-  background-color: transparent;
+  background-color: red;
   cursor: crosshair !important;
   user-select: none;
 `;
