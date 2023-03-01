@@ -6,7 +6,7 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "ETool",
+    "productName": "eTool",
     "version": "0.0.1"
   },
   "tauri": {
@@ -29,7 +29,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "top.qiuqfang.ETool",
+      "identifier": "top.qiuqfang.eTool",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
@@ -57,7 +57,7 @@
       {
         "height": 600,
         "resizable": true,
-        "title": "ETool",
+        "title": "eTool",
         "width": 800,
         "center": true
       }

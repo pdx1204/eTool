@@ -1,6 +1,6 @@
 [package]
-name = "easy_ocr_app"
-version = "0.0.0"
+name = "eTool"
+version = "0.0.1"
 description = "A Tauri App"
 authors = ["Quincy Qiu"]
 license = ""
