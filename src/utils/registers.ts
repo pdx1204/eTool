@@ -41,7 +41,9 @@ export const registerScreenshot = async () => {
           const factor = await webview?.scaleFactor();
           const innerPosition = await webview?.innerPosition();
           const position = innerPosition?.toLogical(factor as number);
-          await invoke("get_position", { position });
+          const array: number[] = await invoke("get_position", { position });
+          const arrayBuffer = new Uint8Array(array).buffer;
+          console.log(arrayBuffer);
         }, 1000);
       }
     });

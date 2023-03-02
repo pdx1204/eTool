@@ -1,15 +1,10 @@
 use screenshots::Screen;
-use std::{fs, time::Instant};
+use tauri::PhysicalPosition;
 
-pub fn screenshot() {
-    let start = Instant::now();
-    let screens = Screen::all().unwrap();
+pub fn screenshot(position: PhysicalPosition<i32>) -> Vec<u8> {
+    let screen = Screen::from_point(position.x, position.y).unwrap();
 
-    for screen in screens {
-        println!("capturer {screen:?}");
-        let image = screen.capture().unwrap();
-        let buffer = image.buffer();
-        fs::write(format!("{}.png", screen.display_info.id), buffer).unwrap();
-    }
-    println!("运行耗时: {:?}", start.elapsed());
+    let image = screen.capture().unwrap();
+    let buffer = image.buffer();
+    return buffer.to_vec();
 }
