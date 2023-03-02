@@ -1,8 +1,12 @@
 import { useScreenshotStore } from "./../store/index";
-import { getAll, getCurrent } from "@tauri-apps/api/window";
+import { appWindow, getAll, getCurrent } from "@tauri-apps/api/window";
 import { createWebviewWindow } from "./index";
-import { listen } from '@tauri-apps/api/event';
-import { isPermissionGranted, requestPermission, sendNotification } from '@tauri-apps/api/notification';
+import { listen } from "@tauri-apps/api/event";
+import {
+  isPermissionGranted,
+  requestPermission,
+  sendNotification,
+} from "@tauri-apps/api/notification";
 import {
   isRegistered,
   register,
@@ -27,6 +31,7 @@ export const registerScreenshot = async () => {
       console.log("截屏", shortcut);
 
       if (webview) {
+        // 防止截屏窗口没有关闭，执行关闭
         webview?.close();
         return;
       } else {
@@ -36,8 +41,7 @@ export const registerScreenshot = async () => {
   };
 
   if (screenshot) {
-    const current = getCurrent();
-    if (current.label === "main") {
+    if (appWindow.label === "main") {
       await unregister(SHORTCUT_KEY.screenshot);
       registerFn();
     }

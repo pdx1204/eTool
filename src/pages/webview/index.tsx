@@ -3,8 +3,7 @@ import { useEffect, useState } from "react";
 import { createGlobalStyle } from "styled-components";
 import { fabric } from "fabric";
 import { Message } from "@arco-design/web-react";
-import { appWindow, getCurrent } from "@tauri-apps/api/window";
-import { emit } from "@tauri-apps/api/event";
+import { appWindow } from "@tauri-apps/api/window";
 import { sendNotification } from "@tauri-apps/api/notification";
 
 export default function Screenshot() {
@@ -13,10 +12,6 @@ export default function Screenshot() {
   }, []);
 
   const executeGetScreenshot = async () => {
-    // 获取截屏窗口
-    const screenshotWindow = getCurrent();
-    console.log(screenshotWindow);
-
     const canvas = new fabric.Canvas("canvas", {
       width: document.documentElement.clientWidth,
       height: document.documentElement.clientHeight,
@@ -85,7 +80,7 @@ export default function Screenshot() {
         if (result) {
           // 截屏成功后关闭截屏窗口并通知
           sendNotification('截屏成功');
-          screenshotWindow.close();
+          appWindow.close();
         }
       }, 100);
     });
