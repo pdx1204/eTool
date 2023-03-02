@@ -1,28 +1,139 @@
-import styled, { createGlobalStyle } from "styled-components";
+import { invoke } from "@tauri-apps/api";
+import { useEffect, useState } from "react";
+import { createGlobalStyle } from "styled-components";
+import { fabric } from "fabric";
+import { Message } from "@arco-design/web-react";
 
-export default function Webview() {
+export default function Screenshot() {
+  useEffect(() => {
+    executeGetScreenshot();
+  }, []);
+
+  const executeGetScreenshot = async () => {
+    const canvas = new fabric.Canvas("canvas", {
+      width: document.documentElement.clientWidth,
+      height: document.documentElement.clientHeight,
+      // width: screen.width,
+      // height: screen.height,
+    });
+    let isMouseDown = false;
+    let startX: number;
+    let startY: number;
+    let rect: fabric.Rect;
+    canvas.on("mouse:down", (event) => {
+      startX = event.pointer?.x as number;
+      startY = event.pointer?.y as number;
+      isMouseDown = true;
+      rect = new fabric.Rect({
+        left: startX,
+        top: startY,
+        fill: "rgba(0,0,0,0.2)",
+        width: 0,
+        height: 0,
+        selectable: false,
+      });
+      canvas.add(rect);
+    });
+    canvas.on("mouse:move", (event) => {
+      if (!isMouseDown) {
+        return;
+      }
+      const endX = event.pointer?.x as number;
+      const endY = event.pointer?.y as number;
+      const width = Math.abs(endX - startX);
+      const height = Math.abs(endY - startY);
+      rect.set("width", width).set("height", height);
+      if (endX < startX) {
+        rect.set("left", endX);
+      }
+      if (endY < startY) {
+        rect.set("top", endY);
+      }
+      canvas.renderAll();
+    });
+    canvas.on("mouse:up", async () => {
+      isMouseDown = false;
+      const endX = (rect.left as number) + (rect.width as number);
+      const endY = (rect.top as number) + (rect.height as number);
+      const x = Math.min(rect.left as number, endX);
+      const y = Math.min(rect.top as number, endY);
+      const width = Math.abs(rect.width as number);
+      const height = Math.abs(rect.height as number);
+
+      canvas.remove(rect);
+      if (width <= 0 || height <= 0) {
+        Message.error("截屏区域无效，请重新选择区域");
+        return;
+      }
+
+      // 延迟执行， 防止未删除 rect
+      setTimeout(async () => {
+        const result = await invoke("capture_region", {
+          x,
+          y,
+          width,
+          height,
+        });
+
+        if (result) {
+          Message.success("截屏成功");
+        }
+      }, 100);
+    });
+
+    // // 根据打开的截屏窗口告诉后端对哪个窗口进行截屏
+    // const screenshotWindow = getCurrent();
+    // console.log(screenshotWindow);
+    // screenshotWindow?.setCursorIcon("crosshair");
+    // // 获取截屏窗口的位置，生成截取全屏的图片
+    // const factor = await screenshotWindow?.scaleFactor();
+    // const innerPosition = await screenshotWindow?.innerPosition();
+    // const position = innerPosition?.toLogical(factor as number);
+    // console.log(position);
+    // await invoke("get_position", { position });
+    // // 获取保存起来的图片
+    // const contents = await readBinaryFile("fullscreen.png", {
+    //   dir: BaseDirectory.Desktop,
+    // });
+    // // 渲染到 canvas 中
+    // const canvas = new fabric.Canvas("canvas");
+    // const blob = new Blob([contents.buffer], { type: "image/png" });
+    // const fileReader = new FileReader();
+    // fileReader.readAsDataURL(blob);
+    // fileReader.onload = (e) => {
+    //   const imageUrl = e.target?.result as string;
+    //   fabric.Image.fromURL(imageUrl, (image) => {
+    //     image.scaleToWidth(canvas.width as number);
+    //     image.scaleToHeight(canvas.height as number);
+    //     canvas.add(image);
+    //   });
+    // };
+  };
+
   return (
-    <WebviewWrapper>
+    <canvas id="canvas">
       <GlobalStyle />
-    </WebviewWrapper>
+    </canvas>
   );
 }
 
 const GlobalStyle = createGlobalStyle`
   :root {
-    background-color: transparent;
+    background-color: transparent !important;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      background-color: transparent;
+      background-color: transparent !important;
     }
   }
-`;
-
-const WebviewWrapper = styled.canvas`
-  width: 100%;
-  height: 100vh;
-  background-color: red;
-  cursor: crosshair !important;
-  user-select: none;
+  html, body, #root {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  canvas {
+    background-color: transparent;
+    cursor: crosshair !important;
+  }
 `;

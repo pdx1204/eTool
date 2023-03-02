@@ -1,7 +1,17 @@
-import { WebviewWindow, WindowOptions } from "@tauri-apps/api/window";
+import {
+  WebviewWindow,
+  WindowLabel,
+  WindowOptions,
+} from "@tauri-apps/api/window";
 
-export const createWebviewWindow = (options: WindowOptions) => {
-  const webview = new WebviewWindow(window.crypto.randomUUID(), options);
+export const createWebviewWindow = (
+  id: WebviewWindowLabel,
+  options: WindowOptions
+) => {
+  const webview = new WebviewWindow(
+    `${window.crypto.randomUUID()}-${id}`,
+    options
+  );
 
   webview.once("tauri://created", function () {
     // webview window successfully created
@@ -14,3 +24,5 @@ export const createWebviewWindow = (options: WindowOptions) => {
   });
   return webview;
 };
+
+export type WebviewWindowLabel = WindowLabel | number;
