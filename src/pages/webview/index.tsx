@@ -3,7 +3,9 @@ import { useEffect, useState } from "react";
 import { createGlobalStyle } from "styled-components";
 import { fabric } from "fabric";
 import { Message } from "@arco-design/web-react";
-import { getCurrent } from "@tauri-apps/api/window";
+import { appWindow, getCurrent } from "@tauri-apps/api/window";
+import { emit } from "@tauri-apps/api/event";
+import { sendNotification } from "@tauri-apps/api/notification";
 
 export default function Screenshot() {
   useEffect(() => {
@@ -11,6 +13,10 @@ export default function Screenshot() {
   }, []);
 
   const executeGetScreenshot = async () => {
+    // 获取截屏窗口
+    const screenshotWindow = getCurrent();
+    console.log(screenshotWindow);
+
     const canvas = new fabric.Canvas("canvas", {
       width: document.documentElement.clientWidth,
       height: document.documentElement.clientHeight,
@@ -77,14 +83,16 @@ export default function Screenshot() {
         });
 
         if (result) {
-          Message.success("截屏成功");
+          // 截屏成功后关闭截屏窗口并通知
+          sendNotification('截屏成功');
+          screenshotWindow.close();
         }
       }, 100);
     });
 
-    // 根据打开的截屏窗口告诉后端对哪个窗口进行截屏
-    const screenshotWindow = getCurrent();
-    console.log(screenshotWindow);
+    // // 根据打开的截屏窗口告诉后端对哪个窗口进行截屏
+    // const screenshotWindow = getCurrent();
+    // console.log(screenshotWindow);
     // // 获取截屏窗口的位置，生成截取全屏的图片
     // const factor = await screenshotWindow?.scaleFactor();
     // const innerPosition = await screenshotWindow?.innerPosition();

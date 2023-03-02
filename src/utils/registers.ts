@@ -1,12 +1,15 @@
 import { useScreenshotStore } from "./../store/index";
 import { getAll, getCurrent } from "@tauri-apps/api/window";
 import { createWebviewWindow } from "./index";
+import { listen } from '@tauri-apps/api/event';
+import { isPermissionGranted, requestPermission, sendNotification } from '@tauri-apps/api/notification';
 import {
   isRegistered,
   register,
   unregister,
 } from "@tauri-apps/api/globalShortcut";
 import { GET_SHORTCUT_KEYS } from "./constants";
+import { Message } from "@arco-design/web-react";
 
 export const registerScreenshot = async () => {
   const SHORTCUT_KEY = await GET_SHORTCUT_KEYS();
