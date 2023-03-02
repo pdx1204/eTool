@@ -27,14 +27,7 @@ export const registerScreenshot = async () => {
         webview?.close();
         return;
       } else {
-        createWebviewWindow("screenshot", {
-          url: "/webview",
-          decorations: false,
-          maximized: true,
-          resizable: false,
-          // fullscreen: true,
-          transparent: true,
-        });
+        createWebviewWindow("screenshot", SHORTCUT_KEY.windowOptions);
       }
     });
   };

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { createGlobalStyle } from "styled-components";
 import { fabric } from "fabric";
 import { Message } from "@arco-design/web-react";
+import { getCurrent } from "@tauri-apps/api/window";
 
 export default function Screenshot() {
   useEffect(() => {
@@ -81,10 +82,9 @@ export default function Screenshot() {
       }, 100);
     });
 
-    // // 根据打开的截屏窗口告诉后端对哪个窗口进行截屏
-    // const screenshotWindow = getCurrent();
-    // console.log(screenshotWindow);
-    // screenshotWindow?.setCursorIcon("crosshair");
+    // 根据打开的截屏窗口告诉后端对哪个窗口进行截屏
+    const screenshotWindow = getCurrent();
+    console.log(screenshotWindow);
     // // 获取截屏窗口的位置，生成截取全屏的图片
     // const factor = await screenshotWindow?.scaleFactor();
     // const innerPosition = await screenshotWindow?.innerPosition();
