@@ -32,8 +32,7 @@ fn main() {
             setup::create_dir();
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![capture_full])
-        .invoke_handler(tauri::generate_handler![capture_region])
+        .invoke_handler(tauri::generate_handler![capture_full, capture_region])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
