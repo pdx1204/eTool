@@ -15,7 +15,16 @@
     "allowlist": {
       "all": true,
       "fs": {
-        "scope": ["**"]
+        "scope": ["$HOME/.eTool/*", "$HOME/.eTool", "$HOME/*"]
+      },
+      "shell": {
+        "scope": [
+          {
+            "name": "screencapture",
+            "cmd": "screencapture",
+            "args": true
+          }
+        ]
       }
     },
     "bundle": {

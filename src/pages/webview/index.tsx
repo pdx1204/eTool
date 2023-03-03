@@ -21,13 +21,10 @@ export default function Screenshot() {
       // height: screen.height,
     });
 
-    // 获取截屏窗口的位置，生成截取全屏的图片
-    const factor = await appWindow?.scaleFactor();
-    const innerPosition = await appWindow?.innerPosition();
-    const position = innerPosition?.toLogical(factor as number);
-    console.log(position);
-    const array = (await invoke("capture_full", { position })) as Array<number>;
     // 渲染到 canvas 中
+    const array = await readBinaryFile(".eTool/screenshot.png", {
+      dir: BaseDirectory.Home,
+    });
     const blob = new Blob([new Uint8Array(array)], { type: "image/png" });
     const fileReader = new FileReader();
     fileReader.readAsDataURL(blob);
