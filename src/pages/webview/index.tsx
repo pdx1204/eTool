@@ -1,10 +1,6 @@
-import { invoke } from "@tauri-apps/api";
 import { useEffect, useState } from "react";
 import { createGlobalStyle } from "styled-components";
 import { fabric } from "fabric";
-import { Message } from "@arco-design/web-react";
-import { appWindow } from "@tauri-apps/api/window";
-import { sendNotification } from "@tauri-apps/api/notification";
 import { readBinaryFile, BaseDirectory } from "@tauri-apps/api/fs";
 import { capture_region } from "./method";
 
@@ -17,8 +13,6 @@ export default function Screenshot() {
     const canvas = new fabric.Canvas("canvas", {
       width: document.documentElement.clientWidth,
       height: document.documentElement.clientHeight,
-      // width: screen.width,
-      // height: screen.height,
     });
 
     // 渲染到 canvas 中

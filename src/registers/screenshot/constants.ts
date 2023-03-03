@@ -5,6 +5,7 @@ import { appWindow, getAll } from "@tauri-apps/api/window";
 import { createWebviewWindow } from "../../utils";
 import { Command } from "@tauri-apps/api/shell";
 import { homeDir } from "@tauri-apps/api/path";
+import { sendNotification } from "@tauri-apps/api/notification";
 
 export const DEFAULT_WINDOW_OPTION = {
   url: "/webview",
@@ -53,7 +54,12 @@ export const GET_HANDLER_FN = (osType: OsType) => {
         "-i",
         `${homeDirPath}.eTool/screenshot.png`,
       ]);
-      command.execute();
+      const { code } = await command.execute();
+      console.log(code);
+      if (code === 0) {
+        sendNotification("截屏成功");
+        appWindow.emit("screenshot_success");
+      }
     },
   };
   return HANDLER_FN[osType];

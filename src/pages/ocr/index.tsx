@@ -5,6 +5,8 @@ const TextArea = Input.TextArea;
 
 import { createWorker } from "tesseract.js";
 import { OCRWrapper } from "./styled";
+import { appWindow } from "@tauri-apps/api/window";
+import { BaseDirectory, readBinaryFile } from "@tauri-apps/api/fs";
 
 export default function Home() {
   const [imageSrc, setImageSrc] = useState<string>();
@@ -55,6 +57,20 @@ export default function Home() {
   useEffect(() => {
     const textarea = document.querySelector("textarea.shadow-lg");
     textarea?.classList.remove("arco-textarea-disabled");
+
+    appWindow.listen("screenshot_success", async () => {
+      const array = await readBinaryFile(".eTool/screenshot.png", {
+        dir: BaseDirectory.Home,
+      });
+      const blob = new Blob([new Uint8Array(array)], { type: "image/png" });
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(blob);
+      fileReader.onload = (e) => {
+        const imageUrl = e.target?.result as string;
+        setImageSrc(imageUrl);
+        parse(imageUrl);
+      };
+    });
   }, []);
 
   return (
