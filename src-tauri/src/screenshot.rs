@@ -1,4 +1,4 @@
-use std::{env, fs, path};
+use std::{fs};
 
 use screenshots::Screen;
 use tauri::{PhysicalPosition, api::path::home_dir};

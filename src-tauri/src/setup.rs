@@ -1,9 +1,8 @@
-use std::{env, fs};
+use std::{fs};
 
-use tauri::api::path::{home_dir, local_data_dir};
+use tauri::api::path::{home_dir};
 
 pub fn create_dir() {
-    // FIXME 在 windows 下会打包 C 盘主目录下
     let home_path = home_dir().unwrap();
 
     let path = format!("{}/.eTool", home_path.display());
