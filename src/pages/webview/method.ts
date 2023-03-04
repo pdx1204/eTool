@@ -1,5 +1,6 @@
 import { Message } from "@arco-design/web-react";
 import { invoke } from "@tauri-apps/api";
+import { emit } from "@tauri-apps/api/event";
 import { sendNotification } from "@tauri-apps/api/notification";
 import { appWindow } from "@tauri-apps/api/window";
 import { fabric } from "fabric";
@@ -67,7 +68,7 @@ export const capture_region = (canvas: fabric.Canvas) => {
       if (result) {
         // 截屏成功后关闭截屏窗口并通知
         sendNotification("截屏成功");
-        appWindow.emit("screenshot_success");
+        emit("screenshot_success");
         appWindow.close();
       }
     }, 100);
