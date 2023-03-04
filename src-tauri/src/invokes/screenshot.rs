@@ -1,7 +1,7 @@
-use std::{fs};
+use std::fs;
 
 use screenshots::Screen;
-use tauri::{PhysicalPosition, api::path::home_dir};
+use tauri::{api::path::home_dir, PhysicalPosition};
 
 // 截屏
 pub fn capture_full(position: PhysicalPosition<i32>) -> Vec<u8> {
