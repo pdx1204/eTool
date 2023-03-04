@@ -3,7 +3,8 @@
     "beforeDevCommand": "pnpm dev",
     "beforeBuildCommand": "pnpm build",
     "devPath": "http://localhost:1420",
-    "distDir": "../dist"
+    "distDir": "../dist",
+    "withGlobalTauri": true
   },
   "package": {
     "productName": "eTool",
@@ -11,8 +12,23 @@
   },
   "tauri": {
     "macOSPrivateApi": true,
+    "systemTray": {
+      "iconPath": "icons/32x32.png"
+    },
     "allowlist": {
-      "all": true
+      "all": true,
+      "fs": {
+        "scope": ["$HOME/.eTool/*", "$HOME/.eTool", "$HOME/*"]
+      },
+      "shell": {
+        "scope": [
+          {
+            "name": "screencapture",
+            "cmd": "screencapture",
+            "args": true
+          }
+        ]
+      }
     },
     "bundle": {
       "active": true,
@@ -55,10 +71,10 @@
     },
     "windows": [
       {
-        "height": 600,
-        "resizable": true,
         "title": "eTool",
         "width": 800,
+        "height": 600,
+        "resizable": true,
         "center": true
       }
     ]

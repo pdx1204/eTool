@@ -1,12 +1,12 @@
 import { getAll, WebviewWindow, WindowOptions } from "@tauri-apps/api/window";
 import { useEffect, useState } from "react";
-import { createWebviewWindow } from "../utils";
+import { createWebviewWindow, WebviewWindowLabel } from "../utils";
 
-export default (options: WindowOptions) => {
+export default (id: WebviewWindowLabel, options: WindowOptions) => {
   const [webviewWindow, setWebviewWindow] = useState<WebviewWindow>();
 
   useEffect(() => {
-    const webview = createWebviewWindow(options);
+    const webview = createWebviewWindow(id, options);
 
     setWebviewWindow(() => {
       return webview;
