@@ -29,9 +29,11 @@ fn capture_region(x: f32, y: f32, width: f32, height: f32) -> Vec<u8> {
 fn main() {
     tauri::Builder::default()
         .setup(|_app| {
+            // 应用打开时做的一些操作
             setup::create_dir();
             Ok(())
         })
+        // 前端跟后端通信
         .invoke_handler(tauri::generate_handler![capture_full, capture_region])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
