@@ -50,7 +50,11 @@ export const GET_HANDLER_FN = (osType: OsType) => {
     Darwin: async () => {
       const homeDirPath = await homeDir();
       console.log("Mac 调用截屏");
+      /**
+       * -f 强制放入剪切板
+       */
       const command = new Command("screencapture", [
+        "-f",
         "-i",
         `${homeDirPath}.eTool/screenshot.png`,
       ]);
