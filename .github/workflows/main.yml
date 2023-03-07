@@ -15,9 +15,9 @@ jobs:
 
     runs-on: ${{ matrix.platform }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3 # https://github.com/actions/checkout
       - name: setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v3 # https://github.com/actions/setup-node
         with:
           node-version: 16
       - name: install Rust stable
@@ -33,7 +33,7 @@ jobs:
         run: pnpm install
       - uses: tauri-apps/tauri-action@v0
         env:
-          GITHUB_TOKEN: ${{ secrets.WORKFLOW_TOKEN }}
+          WORKFLOW_TOKEN: ${{ secrets.WORKFLOW_TOKEN }}
         with:
           tagName: app-v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version
           releaseName: "App v__VERSION__"
