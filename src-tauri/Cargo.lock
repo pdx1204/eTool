@@ -2506,9 +2506,9 @@ checksum = "d29ab0c6d3fc0ee92fe66e2d99f700eab17a8d57d1c1d3b748380fb20baa78cd"
 
 [[package]]
 name = "screenshots"
-version = "0.5.2"
+version = "0.5.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "496b23b6d19d356fbf12b0c2052dd729c2f9bdd1d1306d5cf4a80bc87b534c32"
+checksum = "0af08077596f1a9a4058fc4fcc95f523c5dbac873e6ef4b921d6e4bf36bc1048"
 dependencies = [
  "anyhow",
  "core-graphics",
