@@ -1,7 +1,7 @@
 [package]
-name = "eTool"
+name = "e_tool"
 version = "0.0.1"
-description = "A Tauri App"
+description = "This is an app that recognizes text in pictures. The application is developed using Tauri, Vite, React, TypeScript."
 authors = ["Quincy Qiu"]
 license = ""
 repository = ""
