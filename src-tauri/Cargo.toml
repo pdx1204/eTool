@@ -19,7 +19,7 @@ serde = { version = "1.0", features = ["derive"] }
 tauri = { version = "1.2", features = ["api-all", "macos-private-api", "system-tray"] }
 screenshots = "0.5.3"
 clipboard = "0.5.0"
-image = "0.24.5"
+image = "0.24.6"
 
 [features]
 # by default Tauri runs in production mode
