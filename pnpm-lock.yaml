@@ -23,8 +23,8 @@ dependencies:
     specifier: ^5.3.6
     version: 5.3.6(react-dom@18.2.0)(react-is@16.13.1)(react@18.2.0)
   tesseract.js:
-    specifier: ^3.0.3
-    version: 3.0.3(eslint@8.38.0)
+    specifier: ^4.0.0
+    version: 4.0.0(eslint@8.38.0)
   zustand:
     specifier: ^4.3.2
     version: 4.3.2(react@18.2.0)
@@ -2825,12 +2825,12 @@ packages:
     dev: false
     optional: true
 
-  /tesseract.js-core@3.0.2:
-    resolution: {integrity: sha512-2fD76ka9nO/C616R0fq+M9Zu91DA3vEfyozp0jlxaJOBmpfeprtgRP3cqVweZh2darE1kK/DazoxZ65g7WU99Q==}
+  /tesseract.js-core@4.0.3:
+    resolution: {integrity: sha512-NqSqnq0dNhlQYw9JYWUh0rymN0gG/GaLmP2gdRnxUIivzYkPa0aYQW4WSRO6lGKIabyqxa2j2sELBujyOFYVgQ==}
     dev: false
 
-  /tesseract.js@3.0.3(eslint@8.38.0):
-    resolution: {integrity: sha512-eZ1+OGWvF5IMExAzIwnDf3S3kf2FeC+i4qrMTRvBSlZeHc3ONy0vCmaKmBQz6scjB6C1W2w2x0r4lCEh95qBnw==}
+  /tesseract.js@4.0.0(eslint@8.38.0):
+    resolution: {integrity: sha512-HPCaEzT39ab3/3mqb6Zl1gVBu0rsKVDYcunNzHp7WUnFLzwgd4H+KcWxfbAHcsLjsJK1xr0jw9zxI8zJdbYUVA==}
     requiresBuild: true
     dependencies:
       babel-eslint: 10.1.0(eslint@8.38.0)
@@ -2843,7 +2843,7 @@ packages:
       opencollective-postinstall: 2.0.3
       regenerator-runtime: 0.13.11
       resolve-url: 0.2.1
-      tesseract.js-core: 3.0.2
+      tesseract.js-core: 4.0.3
       wasm-feature-detect: 1.4.0
       zlibjs: 0.3.1
     transitivePeerDependencies:
