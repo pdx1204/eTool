@@ -16,7 +16,7 @@ export default function Home() {
   const parse = async (imgSrcUrl: string) => {
     setParseText("");
     setLoading(true);
-    const worker = createWorker({
+    const worker = await createWorker({
       logger: (m) => console.log(m),
     });
     await worker.load();
