@@ -105,9 +105,12 @@ const screenshotSuccess = (
   setImageSrc: React.Dispatch<React.SetStateAction<string | undefined>>,
   parse: (imgSrcUrl: string) => Promise<void>
 ) => {
+  const current = getCurrent();
   listen(
     "screenshot_success",
     async (event: { payload: { fileName: string } }) => {
+      current.show();
+      current.setFocus();
       const array = await readBinaryFile(
         `.eTool/${event.payload.fileName}.png`,
         {
