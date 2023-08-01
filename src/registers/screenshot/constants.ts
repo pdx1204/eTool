@@ -40,25 +40,29 @@ export const GET_HANDLER_FN = (osType: OsType) => {
         const innerPosition = await appWindow?.innerPosition();
         const position = innerPosition?.toLogical(factor as number);
         console.log(position);
+        const fileName = `${Date.now()}_${window.crypto.randomUUID()}`;
+
         (await invoke("capture_full", {
           position,
+          file_name: fileName,
         })) as Array<number>;
 
-        createWebviewWindow("screenshot", DEFAULT_WINDOW_OPTION);
+        createWebviewWindow("screenshot", DEFAULT_WINDOW_OPTION, fileName);
       }
     },
     Darwin: async () => {
       const homeDirPath = await homeDir();
       console.log("Mac 调用截屏");
+      const fileName = `${Date.now()}_${window.crypto.randomUUID()}`;
       const command = new Command("screencapture", [
         "-i",
-        `${homeDirPath}.eTool/screenshot.png`,
+        `${homeDirPath}.eTool/${fileName}.png`,
       ]);
       const { code } = await command.execute();
       console.log(code);
       if (code === 0) {
         sendNotification("截屏成功");
-        appWindow.emit("screenshot_success");
+        appWindow.emit("screenshot_success", { fileName });
       }
     },
   };

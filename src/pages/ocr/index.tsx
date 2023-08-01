@@ -5,7 +5,7 @@ const TextArea = Input.TextArea;
 
 import { createWorker } from "tesseract.js";
 import { OCRWrapper } from "./styled";
-import { listen } from "@tauri-apps/api/event";
+import { EventName, listen } from "@tauri-apps/api/event";
 import { BaseDirectory, readBinaryFile } from "@tauri-apps/api/fs";
 
 export default function Home() {
@@ -58,19 +58,25 @@ export default function Home() {
     const textarea = document.querySelector("textarea.shadow-lg");
     textarea?.classList.remove("arco-textarea-disabled");
 
-    listen("screenshot_success", async () => {
-      const array = await readBinaryFile(".eTool/screenshot.png", {
-        dir: BaseDirectory.Home,
-      });
-      const blob = new Blob([new Uint8Array(array)], { type: "image/png" });
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(blob);
-      fileReader.onload = (e) => {
-        const imageUrl = e.target?.result as string;
-        setImageSrc(imageUrl);
-        parse(imageUrl);
-      };
-    });
+    listen(
+      "screenshot_success",
+      async (event: { payload: { fileName: string } }) => {
+        const array = await readBinaryFile(
+          `.eTool/${event.payload.fileName}.png`,
+          {
+            dir: BaseDirectory.Home,
+          }
+        );
+        const blob = new Blob([new Uint8Array(array)], { type: "image/png" });
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(blob);
+        fileReader.onload = (e) => {
+          const imageUrl = e.target?.result as string;
+          setImageSrc(imageUrl);
+          parse(imageUrl);
+        };
+      }
+    );
   }, []);
 
   return (

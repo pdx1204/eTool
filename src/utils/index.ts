@@ -1,3 +1,4 @@
+import { emit } from "@tauri-apps/api/event";
 import {
   WebviewWindow,
   WindowLabel,
@@ -6,7 +7,8 @@ import {
 
 export const createWebviewWindow = (
   id: WebviewWindowLabel,
-  options: WindowOptions
+  options: WindowOptions,
+  fileName: string
 ) => {
   const webview = new WebviewWindow(
     `${window.crypto.randomUUID()}-${id}`,
@@ -16,6 +18,7 @@ export const createWebviewWindow = (
   webview.once("tauri://created", function () {
     // webview window successfully created
     console.log("window successfully");
+    emit("send_full_screen_file_name", { fileName });
   });
 
   webview.once("tauri://error", function (e) {

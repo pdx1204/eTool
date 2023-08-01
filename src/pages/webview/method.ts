@@ -58,17 +58,19 @@ export const capture_region = (canvas: fabric.Canvas) => {
 
     // 延迟执行， 防止未删除 rect
     setTimeout(async () => {
+      const fileName = `${Date.now()}_${window.crypto.randomUUID()}`;
       const result = await invoke("capture_region", {
         x,
         y,
         width,
         height,
+        file_name: fileName,
       });
 
       if (result) {
         // 截屏成功后关闭截屏窗口并通知
         sendNotification("截屏成功");
-        emit("screenshot_success");
+        emit("screenshot_success", { fileName });
         appWindow.close();
       }
     }, 100);
