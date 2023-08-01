@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Input, Image, Button, Spin } from "@arco-design/web-react";
 const TextArea = Input.TextArea;
 
 import { createWorker } from "tesseract.js";
 import { OCRWrapper } from "./styled";
-import { EventName, listen } from "@tauri-apps/api/event";
+import { listen } from "@tauri-apps/api/event";
 import { BaseDirectory, readBinaryFile } from "@tauri-apps/api/fs";
+import { getCurrent } from "@tauri-apps/api/window";
 
 export default function Home() {
   const [imageSrc, setImageSrc] = useState<string>();
@@ -57,26 +58,7 @@ export default function Home() {
   useEffect(() => {
     const textarea = document.querySelector("textarea.shadow-lg");
     textarea?.classList.remove("arco-textarea-disabled");
-
-    listen(
-      "screenshot_success",
-      async (event: { payload: { fileName: string } }) => {
-        const array = await readBinaryFile(
-          `.eTool/${event.payload.fileName}.png`,
-          {
-            dir: BaseDirectory.Home,
-          }
-        );
-        const blob = new Blob([new Uint8Array(array)], { type: "image/png" });
-        const fileReader = new FileReader();
-        fileReader.readAsDataURL(blob);
-        fileReader.onload = (e) => {
-          const imageUrl = e.target?.result as string;
-          setImageSrc(imageUrl);
-          parse(imageUrl);
-        };
-      }
-    );
+    screenshotSuccess(setImageSrc, parse);
   }, []);
 
   return (
@@ -118,3 +100,28 @@ export default function Home() {
     </OCRWrapper>
   );
 }
+
+const screenshotSuccess = (
+  setImageSrc: React.Dispatch<React.SetStateAction<string | undefined>>,
+  parse: (imgSrcUrl: string) => Promise<void>
+) => {
+  listen(
+    "screenshot_success",
+    async (event: { payload: { fileName: string } }) => {
+      const array = await readBinaryFile(
+        `.eTool/${event.payload.fileName}.png`,
+        {
+          dir: BaseDirectory.Home,
+        }
+      );
+      const blob = new Blob([new Uint8Array(array)], { type: "image/png" });
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(blob);
+      fileReader.onload = (e) => {
+        const imageUrl = e.target?.result as string;
+        setImageSrc(imageUrl);
+        parse(imageUrl);
+      };
+    }
+  );
+};
