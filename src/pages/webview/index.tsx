@@ -3,12 +3,12 @@ import { createGlobalStyle } from "styled-components";
 import { fabric } from "fabric";
 import { readBinaryFile, BaseDirectory } from "@tauri-apps/api/fs";
 import { capture_region } from "./method";
-import { once } from "@tauri-apps/api/event";
 
 export default function Screenshot() {
   useEffect(() => {
     executeGetScreenshot();
   }, []);
+
 
   const executeGetScreenshot = async () => {
     const canvas = new fabric.Canvas("canvas", {
@@ -16,33 +16,26 @@ export default function Screenshot() {
       height: document.documentElement.clientHeight,
     });
 
-    // 获取全屏幕截图
-    once(
-      "send_full_screen_file_name",
-      async (event: { payload: { fileName: string } }) => {
-        // 获取全屏幕截图，渲染到canvas
-        const array = await readBinaryFile(
-          `.eTool/${event.payload.fileName}.png`,
-          {
-            dir: BaseDirectory.Home,
-          }
-        );
-        const blob = new Blob([new Uint8Array(array)], { type: "image/png" });
-        const fileReader = new FileReader();
-        fileReader.readAsDataURL(blob);
-        fileReader.onload = (e) => {
-          const imageUrl = e.target?.result as string;
-          fabric.Image.fromURL(imageUrl, (image) => {
-            image.scaleToWidth(canvas.width as number);
-            image.scaleToHeight(canvas.height as number);
-            image.selectable = false;
-            canvas.add(image);
+    const searchParams = new URLSearchParams(location.search);
 
-            capture_region(canvas);
-          });
-        };
-      }
-    );
+    // 获取全屏幕截图，渲染到canvas
+    const array = await readBinaryFile(`.eTool/${searchParams.get("fileName")}.png`, {
+      dir: BaseDirectory.Home,
+    });
+    const blob = new Blob([new Uint8Array(array)], { type: "image/png" });
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(blob);
+    fileReader.onload = (e) => {
+      const imageUrl = e.target?.result as string;
+      fabric.Image.fromURL(imageUrl, (image) => {
+        image.scaleToWidth(canvas.width as number);
+        image.scaleToHeight(canvas.height as number);
+        image.selectable = false;
+        canvas.add(image);
+
+        capture_region(canvas);
+      });
+    };
   };
 
   return (

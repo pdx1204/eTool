@@ -44,10 +44,13 @@ export const GET_HANDLER_FN = (osType: OsType) => {
 
         (await invoke("capture_full", {
           position,
-          file_name: fileName,
+          fileName,
         })) as Array<number>;
 
-        createWebviewWindow("screenshot", DEFAULT_WINDOW_OPTION, fileName);
+        createWebviewWindow("screenshot", {
+          ...DEFAULT_WINDOW_OPTION,
+          url: `/webview?fileName=${fileName}`,
+        });
       }
     },
     Darwin: async () => {

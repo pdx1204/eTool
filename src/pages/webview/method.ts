@@ -64,7 +64,7 @@ export const capture_region = (canvas: fabric.Canvas) => {
         y,
         width,
         height,
-        file_name: fileName,
+        fileName,
       });
 
       if (result) {
