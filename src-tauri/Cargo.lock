@@ -3083,9 +3083,9 @@ checksum = "94143f37725109f92c262ed2cf5e59bce7498c01bcc1502d7b9afe439a4e9f49"
 
 [[package]]
 name = "screenshots"
-version = "0.7.0"
+version = "0.7.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f15c417cd44c5e999148f931bd40307208aa5f0e6914829fdb0de6520dbbf8b1"
+checksum = "a5949a375cfa59d2da560c886629e237b7471074ddaf64ce81fe6f96a1a15ec7"
 dependencies = [
  "anyhow",
  "core-graphics",
