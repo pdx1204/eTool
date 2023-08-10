@@ -13,12 +13,7 @@ function App() {
       <Outlet />
 
       <footer className=" mt-10 flex justify-center items-center">
-        <div
-          className="toggle-dark cursor-pointer"
-          onClick={useCallback(() => {
-            toggleDark();
-          }, [])}
-        >
+        <div className="toggle-dark cursor-pointer" onClick={toggleDark}>
           {isDark ? <MaterialSymbolsSunny /> : <MaterialSymbolsDarkMode />}
         </div>
       </footer>
