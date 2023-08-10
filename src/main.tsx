@@ -8,10 +8,16 @@ import "@arco-design/web-react/dist/css/arco.css";
 
 const darkThemeMq = window.matchMedia("(prefers-color-scheme: dark)");
 
-if (darkThemeMq.matches) {
-  document.body.setAttribute("arco-theme", "dark");
+if (!localStorage.theme) {
+  if (darkThemeMq.matches) {
+    document.body.setAttribute("arco-theme", "dark");
+    localStorage.theme = "dark";
+  } else {
+    document.body.setAttribute("arco-theme", "light");
+    localStorage.theme = "light";
+  }
 } else {
-  document.body.removeAttribute("arco-theme");
+  document.body.setAttribute("arco-theme", localStorage.theme);
 }
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(

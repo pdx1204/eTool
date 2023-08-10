@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import { Input, Image, Button, Spin } from "@arco-design/web-react";
 const TextArea = Input.TextArea;
@@ -13,8 +13,9 @@ export default function Home() {
   const [imageSrc, setImageSrc] = useState<string>();
   const [parseText, setParseText] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const inputFileRef = useRef<HTMLInputElement>(null);
 
-  const parse = async (imgSrcUrl: string) => {
+  const parse = useCallback(async (imgSrcUrl: string) => {
     setParseText("");
     setLoading(true);
     const worker = await createWorker({
@@ -29,31 +30,19 @@ export default function Home() {
     setParseText(text);
     await worker.terminate();
     setLoading(false);
-  };
+  }, []);
 
-  const checkFile = (tempFile: File) => {
-    if (!tempFile) {
-      return false;
-    }
-    if (tempFile.type.substring(0, 5) !== "image") {
-      return;
-    }
-    const imgSrcUrl = URL.createObjectURL(tempFile);
-    setImageSrc(imgSrcUrl);
-    parse(imgSrcUrl);
-  };
-
-  const handleClick = () => {
-    const inputFile = document.querySelector("#fileUpload") as HTMLInputElement;
+  const handleClick = useCallback(() => {
+    const inputFile = inputFileRef.current as HTMLInputElement;
     inputFile.click();
     inputFile.onchange = (e: Event) => {
       const target = e.target as HTMLInputElement;
       const tempFiles = target.files as FileList;
 
-      checkFile(tempFiles[0]);
+      checkFile(tempFiles[0], setImageSrc, parse);
       target.value = ""; // 同一个文件做两次上传操作，第二次无效解决办法
     };
-  };
+  }, []);
 
   useEffect(() => {
     const textarea = document.querySelector("textarea.shadow-lg");
@@ -63,43 +52,63 @@ export default function Home() {
 
   return (
     <OCRWrapper>
-      <Spin block dot loading={loading} tip="正在解析图片中的文字，请稍候...">
-        <div className="flex justify-center p-[20px]">
-          <Button type="primary" onClick={handleClick}>
-            上传图片解析
-          </Button>
-        </div>
+      <div className="flex justify-center p-[20px]">
+        <Button type="primary" loading={loading} onClick={handleClick}>
+          上传图片解析
+        </Button>
+      </div>
 
-        <div className="flex justify-around">
-          <Image
-            width="49%"
-            height="300px"
-            style={{ display: "flex" }}
-            className="justify-center items-center shadow-lg"
-            src={imageSrc}
-            alt="请上传图片..."
-          />
+      <div className="flex justify-around">
+        <Image
+          width="49%"
+          height="300px"
+          style={{ display: "flex" }}
+          className="justify-center items-center shadow-lg"
+          src={imageSrc}
+          alt="请上传图片..."
+        />
 
-          <TextArea
-            style={{
-              width: "49%",
-              height: "300px",
-            }}
-            className="shadow-lg text-black"
-            placeholder="请上传图片..."
-            value={parseText}
-            disabled
-            onChange={(value) => {
-              setParseText(value);
-            }}
-          />
-        </div>
-      </Spin>
+        <TextArea
+          style={{
+            width: "49%",
+            height: "300px",
+          }}
+          className="shadow-lg text-black"
+          placeholder="请上传图片..."
+          value={parseText}
+          disabled
+          onChange={(value) => {
+            setParseText(value);
+          }}
+        />
+      </div>
 
-      <input type="file" id="fileUpload" accept="image/*" hidden />
+      <input
+        type="file"
+        ref={inputFileRef}
+        id="fileUpload"
+        accept="image/*"
+        hidden
+      />
     </OCRWrapper>
   );
 }
+
+const checkFile = (
+  tempFile: File,
+  setImageSrc: React.Dispatch<React.SetStateAction<string | undefined>>,
+  parse: (imgSrcUrl: string) => Promise<void>
+) => {
+  if (!tempFile) {
+    return false;
+  }
+  if (tempFile.type.substring(0, 5) !== "image") {
+    return;
+  }
+  const imgSrcUrl = URL.createObjectURL(tempFile);
+  setImageSrc(imgSrcUrl);
+  parse(imgSrcUrl);
+};
 
 const screenshotSuccess = (
   setImageSrc: React.Dispatch<React.SetStateAction<string | undefined>>,
