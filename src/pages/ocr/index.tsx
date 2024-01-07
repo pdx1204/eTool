@@ -18,12 +18,7 @@ export default function Home() {
   const parse = useCallback(async (imgSrcUrl: string) => {
     setParseText("");
     setLoading(true);
-    const worker = await createWorker({
-      logger: (m) => console.log(m),
-    });
-    await worker.load();
-    await worker.loadLanguage("eng+chi_sim");
-    await worker.initialize("eng+chi_sim");
+    const worker = await createWorker();
     const {
       data: { text },
     } = await worker.recognize(imgSrcUrl);
@@ -54,7 +49,7 @@ export default function Home() {
     <OCRWrapper>
       <div className="flex justify-center p-[20px]">
         <Button type="primary" loading={loading} onClick={handleClick}>
-          上传图片解析
+          {loading ? "正在解析" : "上传图片"}
         </Button>
       </div>
 
