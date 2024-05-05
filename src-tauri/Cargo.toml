@@ -17,7 +17,7 @@ tauri-build = { version = "1.4", features = [] }
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
 tauri = { version = "1.4", features = ["api-all", "macos-private-api", "system-tray"] }
-screenshots = "0.7.2"
+screenshots = "0.8.0"
 clipboard = "0.5.0"
 image = "0.24.6"
 
